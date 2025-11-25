@@ -1,14 +1,17 @@
 package interfaces;
 
+import java.util.List;
+
+import main.Client;
 import main.Product;
 
 public interface RayonI {
     String getId();
 
-    int getMax_size();
-
-    void prendre();
+    void prendre(Client client);
 
     void ajouter(Product p);
+
+    List<Product> getProducts();
 
 }
