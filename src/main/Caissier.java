@@ -9,8 +9,9 @@ public class Caissier extends Thread {
 
     @Override
     public void run() {
-        while (superette.getNbr_clients() < superette.getNbrClientSortie()) {
-            superette.getCaisse().prendre();
+        while (Superette.NBR_INIT_CLIENTS > superette.getNbrClientSortie()) {
+            superette.getCaisse().prendre(this);
         }
+        System.out.println("caissier a fini son travail");
     }
 }
