@@ -6,6 +6,7 @@ public class Superette {
     public static int MAX_PRODUCT_BY_CATEGORY_PER_CLIENT = 15;
     public static int NBR_INIT_CLIENTS = 10;
     public static int MAX_SIZE_RAYON = 8;
+    public static int SIZE_CAISSE_TAPIS = 5;
 
     private RangeeChariots rangeeChariots;
     private RangeeRayons rangeeRayons;

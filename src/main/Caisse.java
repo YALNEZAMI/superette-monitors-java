@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Caisse {
-    private static int SIZE = 10;
-    private Product[] tapis = new Product[SIZE];
+    private Product[] tapis = new Product[Superette.SIZE_CAISSE_TAPIS];
     private int currentClientCase = 0;
     private int currentCaissierCase = 0;
     private List<Product> scannedProducts = new ArrayList<Product>();
@@ -15,7 +14,7 @@ public class Caisse {
     private boolean paid = false;
 
     private void incCurrentClientCase() {
-        if (currentClientCase == SIZE - 1) {
+        if (currentClientCase == Superette.SIZE_CAISSE_TAPIS - 1) {
             currentClientCase = 0;
         } else {
             currentClientCase++;
@@ -23,7 +22,7 @@ public class Caisse {
     }
 
     private void incCurrentCaissierCase() {
-        if (currentCaissierCase == SIZE - 1) {
+        if (currentCaissierCase == Superette.SIZE_CAISSE_TAPIS - 1) {
             currentCaissierCase = 0;
         } else {
             currentCaissierCase++;
