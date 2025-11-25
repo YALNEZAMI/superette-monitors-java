@@ -7,7 +7,7 @@ public class App {
     public static void main(String[] args) throws Exception {
         List<Client> clients = new ArrayList<>();
         Superette superette = new Superette();
-        for (int i = 0; i < superette.getNbr_clients(); i++) {
+        for (int i = 0; i < Superette.NBR_INIT_CLIENTS; i++) {
             clients.add(new Client("client" + i, superette));
         }
         Caissier caissier = new Caissier(superette);
@@ -23,7 +23,8 @@ public class App {
         }
         chefRayon.join();
         caissier.join();
-        System.out.println("____Etat de la supertte");
+        System.out.println("____Etat de la supertte____");
+        System.out.println(superette.toString());
 
     }
 }
