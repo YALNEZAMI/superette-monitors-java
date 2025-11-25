@@ -1,12 +1,8 @@
 package main;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-import java.util.Random;
-
-import interfaces.RayonI;
 import main.RangeeChariots.Chariot;
+import main.RangeeRayons.Rayon;
 
 public class Client extends Thread {
     private Map<String, Integer> panier;
@@ -52,7 +48,7 @@ public class Client extends Thread {
     }
 
     public void tournerRayons() {
-        for (RayonI rayon : superette.getRangeeRayons().getRayons()) {
+        for (Rayon rayon : superette.getRangeeRayons().getRayons()) {
             try {
                 Thread.sleep(300);
             } catch (Exception e) {
@@ -68,7 +64,7 @@ public class Client extends Thread {
                 }
             }
             System.out.println("Client---" + this.getName() + " a pris " + nbrPrisRayon + " " + rayon.getId()
-                    + " -> stock ="
+                    + " -> stock = "
                     + rayon.getProducts().size());
         }
     }

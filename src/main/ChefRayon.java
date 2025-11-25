@@ -3,7 +3,7 @@ package main;
 import java.util.HashMap;
 import java.util.Map;
 
-import interfaces.RayonI;
+import main.RangeeRayons.Rayon;
 
 public class ChefRayon extends Thread {
     Superette superette;
@@ -26,7 +26,9 @@ public class ChefRayon extends Thread {
     }
 
     public void tournerRayons() {
-        for (RayonI rayon : superette.getRangeeRayons().getRayons()) {
+
+        for (Rayon rayon : superette.getRangeeRayons().getRayons()) {
+            int ancienStock = rayon.getProducts().size();
             int nbrAjouts = 0;
 
             try {
@@ -43,7 +45,7 @@ public class ChefRayon extends Thread {
                 chariotChefRayon.put(rayon.getId(), chariotChefRayon.get(rayon.getId()) - 1);
             }
             System.out.println(
-                    "ChefRayon---" + rayon.getId() + ": ancien  stock: " + (rayon.getProducts().size() - nbrAjouts)
+                    "ChefRayon---" + rayon.getId() + ": ancien  stock: " + (ancienStock - nbrAjouts)
                             + " nouveau stock: " + rayon.getProducts().size());
 
         }

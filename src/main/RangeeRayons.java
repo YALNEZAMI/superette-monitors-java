@@ -2,7 +2,6 @@ package main;
 
 import java.util.LinkedList;
 import java.util.List;
-import interfaces.RayonI;
 
 public class RangeeRayons {
     Rayon[] rayons = new Rayon[Superette.availableProductsNames.length];
@@ -26,7 +25,7 @@ public class RangeeRayons {
         return s;
     }
 
-    private class Rayon implements RayonI {
+    public class Rayon {
 
         private String id;
         // private int nbProduits=MAX_SIZE;
@@ -36,7 +35,6 @@ public class RangeeRayons {
             return products;
         }
 
-        @Override
         synchronized public void ajouter(Product p) {
             // while (products.size() == max_size) {
             // try {
