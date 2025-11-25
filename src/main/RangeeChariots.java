@@ -1,5 +1,7 @@
 package main;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Stack;
 
 public class RangeeChariots {
@@ -11,27 +13,29 @@ public class RangeeChariots {
         }
     }
 
-    synchronized public Chariot prendreChariot() {
+    synchronized public Chariot prendreChariot(Client client) {
         while (chariots.isEmpty()) {
             try {
+                System.out.println(client.getName() + " attend pour chariot");
+
                 wait();
             } catch (Exception e) {
             }
         }
+        System.out.println(client.getName() + " a pris chariot");
         Chariot c = chariots.pop();
-        notifyAll();
         return c;
     }
 
-    synchronized public void returnChariot(Chariot chariot) {
+    synchronized public void restituerChariot(Client client) {
         // while (chariots.size() == MAX_SIZE) {
         // try {
         // wait();
         // } catch (Exception e) {
         // }
         // }
-
-        chariots.push(chariot);
+        System.out.println(client.getName() + " a restitué le chariot " + client.getChariot().getId());
+        chariots.push(client.getChariot());
         notifyAll();
     }
 
@@ -44,9 +48,10 @@ public class RangeeChariots {
         return s;
     }
 
-    private class Chariot {
+    public class Chariot {
 
-        String id;
+        private String id;
+        private Map<String, Integer> products;
 
         public String getId() {
             return id;
@@ -54,6 +59,22 @@ public class RangeeChariots {
 
         public Chariot(String id) {
             this.id = id;
+            products = new HashMap<String, Integer>();
+            for (String productName : Superette.availableProductsNames) {
+                products.put(productName, 0);
+            }
+        }
+
+        public void setProduct(String product, int nbr) {
+            products.put(product, nbr);
+        }
+
+        public void removeProduct(String product) {
+            products.remove(product);
+        }
+
+        public Map<String, Integer> getProducts() {
+            return products;
         }
     }
 
