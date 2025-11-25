@@ -22,15 +22,30 @@ public class ChefRayon extends Thread {
         for (String productName : Superette.availableProductsNames) {
             chariotChefRayon.put(productName, 5);
         }
+        System.out.println("chef rayon a fais le plein .");
     }
 
     public void tournerRayons() {
         for (RayonI rayon : superette.getRangeeRayons().getRayons()) {
-            while (chariotChefRayon.get(rayon.getId()) < rayon.getMax_size()
+            int nbrAjouts = 0;
+
+            try {
+                Thread.sleep(200);
+            } catch (Exception e) {
+            }
+            // System.out
+            // .println(" chef rayon visite " + rayon.getId() + " dont stock est à " +
+            // rayon.getProducts().size());
+            while (chariotChefRayon.get(rayon.getId()) < Superette.MAX_SIZE_RAYON
                     && chariotChefRayon.get(rayon.getId()) > 0) {
+                nbrAjouts++;
                 rayon.ajouter(ProductFactory.createProduct(rayon.getId()));
                 chariotChefRayon.put(rayon.getId(), chariotChefRayon.get(rayon.getId()) - 1);
             }
+            System.out.println(
+                    "ChefRayon---" + rayon.getId() + ": ancien  stock: " + (rayon.getProducts().size() - nbrAjouts)
+                            + " nouveau stock: " + rayon.getProducts().size());
+
         }
     }
 
@@ -41,8 +56,9 @@ public class ChefRayon extends Thread {
 
     @Override
     public void run() {
-        while (superette.getNbr_clients() < superette.getNbrClientSortie()) {
+        while (Superette.NBR_INIT_CLIENTS > superette.getNbrClientSortie()) {
             travailler();
         }
+        System.out.println("chef rayon a fini son travail");
     }
 }
