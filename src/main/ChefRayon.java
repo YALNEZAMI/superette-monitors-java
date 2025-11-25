@@ -20,8 +20,12 @@ public class ChefRayon extends Thread {
         } catch (Exception e) {
         }
         for (String productName : Superette.availableProductsNames) {
-            chariotChefRayon.put(productName, 5);
+            chariotChefRayon.put(productName, Superette.MAX_CHEF_RAYON_CAPACITY);
         }
+        // for (String str : Superette.availableProductsNames) {
+        // System.out.println(chariotChefRayon.get(str));
+        // ;
+        // }
         System.out.println("chef rayon a fais le plein .");
     }
 
@@ -38,14 +42,15 @@ public class ChefRayon extends Thread {
             // System.out
             // .println(" chef rayon visite " + rayon.getId() + " dont stock est à " +
             // rayon.getProducts().size());
-            while (chariotChefRayon.get(rayon.getId()) < Superette.MAX_SIZE_RAYON
+            while (rayon.getProducts().size() < Superette.MAX_SIZE_RAYON
                     && chariotChefRayon.get(rayon.getId()) > 0) {
                 nbrAjouts++;
                 rayon.ajouter(ProductFactory.createProduct(rayon.getId()));
                 chariotChefRayon.put(rayon.getId(), chariotChefRayon.get(rayon.getId()) - 1);
             }
             System.out.println(
-                    "ChefRayon---" + rayon.getId() + ": ancien  stock: " + (ancienStock - nbrAjouts)
+                    "ChefRayon---" + rayon.getId() + ": ancien stock: " + (ancienStock -
+                            nbrAjouts)
                             + " nouveau stock: " + rayon.getProducts().size());
 
         }
