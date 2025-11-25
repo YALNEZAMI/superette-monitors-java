@@ -2,8 +2,10 @@ package main;
 
 public class Superette {
     public static String[] availableProductsNames = { "beurre", "farine", "sucre", "lait" };
-    public static int NBR_CHARIOTS = 20;
-    private int nbr_clients = 20;
+    public static int NBR_CHARIOTS = 5;
+    public static int MAX_PRODUCT_BY_CATEGORY_PER_CLIENT = 15;
+    public static int NBR_INIT_CLIENTS = 10;
+    public static int MAX_SIZE_RAYON = 8;
 
     private RangeeChariots rangeeChariots;
     private RangeeRayons rangeeRayons;
@@ -17,11 +19,8 @@ public class Superette {
     }
 
     public int getNbrClientSortie() {
+        // System.out.println("nbr clients sortie" + nbrClientSortie);
         return nbrClientSortie;
-    }
-
-    public int getNbr_clients() {
-        return nbr_clients;
     }
 
     public RangeeChariots getRangeeChariots() {
