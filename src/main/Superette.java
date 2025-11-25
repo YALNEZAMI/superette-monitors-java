@@ -1,11 +1,13 @@
 package main;
 
 public class Superette {
-    public static String[] availableProductsNames = { "beurre", "farine", "sucre", "lait" };
+    public static String[] availableProductsNames = { "beurre", "farine", "sucre", "lait" };// à synchroniser avec les
+                                                                                            // sous type de produit et
+                                                                                            // ProductFactory
     public static int NBR_CHARIOTS = 5;
-    public static int MAX_PRODUCT_BY_CATEGORY_PER_CLIENT = 15;
-    public static int NBR_INIT_CLIENTS = 10;
-    public static int MAX_SIZE_RAYON = 8;
+    public static int MAX_PRODUCT_BY_CATEGORY_PER_CLIENT = 5;
+    public static int NBR_INIT_CLIENTS = 2;
+    public static int MAX_SIZE_RAYON = 6;
     public static int SIZE_CAISSE_TAPIS = 5;
 
     private RangeeChariots rangeeChariots;
