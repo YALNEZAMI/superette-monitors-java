@@ -9,7 +9,7 @@ public class RangeeRayons {
 
     public RangeeRayons() {
         for (int i = 0; i < rayons.length; i++) {
-            rayons[i] = new Rayon(Superette.availableProductsNames[i], (i + 10));
+            rayons[i] = new Rayon(Superette.availableProductsNames[i]);
         }
     }
 
@@ -27,7 +27,6 @@ public class RangeeRayons {
     }
 
     private class Rayon implements RayonI {
-        private int max_size = 20;// TODO demander au prof combien
 
         private String id;
         // private int nbProduits=MAX_SIZE;
@@ -39,40 +38,39 @@ public class RangeeRayons {
 
         @Override
         synchronized public void ajouter(Product p) {
-            while (products.size() == max_size) {
-                try {
-                    wait();
-                } catch (Exception e) {
-                }
+            // while (products.size() == max_size) {
+            // try {
+            // wait();
+            // } catch (Exception e) {
+            // }
+            // }
+            if (products.size() <= Superette.MAX_SIZE_RAYON) {
+                products.add(p);
+                notifyAll();
             }
-            products.add(p);
-            notifyAll();
+
         }
 
-        synchronized public void prendre() {
+        synchronized public void prendre(Client client) {
             while (products.size() == 0) {
                 try {
+                    System.out.println(client.getName() + " attend le remplissage du rayon " + id);
                     wait();
                 } catch (Exception e) {
                 }
             }
             products.remove(0);
-            notifyAll();
+            // notifyAll();
         }
 
         public String getId() {
             return id;
         }
 
-        public int getMax_size() {
-            return max_size;
-        }
-
-        public Rayon(String id, int max_size) {
+        public Rayon(String id) {
             this.id = id;
-            this.max_size = max_size;
             products = new LinkedList<Product>();
-            for (int i = 0; i < max_size / 2; i++) {
+            for (int i = 0; i < Superette.MAX_SIZE_RAYON / 2; i++) {
                 products.add(ProductFactory.createProduct(id));
 
             }
