@@ -1,0 +1,29 @@
+package main;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class App {
+    public static void main(String[] args) throws Exception {
+        List<Client> clients = new ArrayList<>();
+        Superette superette = new Superette();
+        for (int i = 0; i < superette.getNbr_clients(); i++) {
+            clients.add(new Client("client" + i, superette));
+        }
+        Caissier caissier = new Caissier(superette);
+        ChefRayon chefRayon = new ChefRayon(superette);
+        for (Client client : clients) {
+            client.start();
+        }
+        chefRayon.start();
+        caissier.start();
+
+        for (Client client : clients) {
+            client.join();
+        }
+        chefRayon.join();
+        caissier.join();
+        System.out.println("____Etat de la supertte");
+
+    }
+}
