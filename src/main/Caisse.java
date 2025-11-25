@@ -84,6 +84,7 @@ public class Caisse {
         }
         System.out.println(client.getName() + " entre en caisse");
         currentClient = client;
+        clientDone = false;
         notifyAll();// reveiller le caissier car attend le client d'entrer
     }
 
@@ -96,7 +97,6 @@ public class Caisse {
         }
         paid = false;
         currentClient = null;
-        clientDone = false;
         System.out.println(client.getName() + " sort de caisse");
         notifyAll();
     }
