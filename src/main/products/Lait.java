@@ -1,4 +1,4 @@
-package main;
+package main.products;
 
 public class Lait extends Product {
     public Lait() {

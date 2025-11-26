@@ -1,18 +1,21 @@
-package main;
+package main.products;
 
 import java.sql.Date;
 import java.util.Random;
+
+import main.mp.Superette;
 
 public abstract class Product {
     private String name;
     Date date = new Date(System.currentTimeMillis());
     Random random = new Random();
-    private String id = date.toString() + random.nextInt();
+    private int id = random.nextInt() * Superette.NBR_INIT_CLIENTS * Superette.MAX_PRODUCT_BY_CATEGORY_PER_CLIENT
+            * Superette.MAX_SIZE_RAYON;
 
     private double price;
 
     public String getName() {
-        return name;
+        return name + "-" + id;
     }
 
     public void setName(String name) {
@@ -20,10 +23,10 @@ public abstract class Product {
     }
 
     public String getId() {
-        return id;
+        return this.name + id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

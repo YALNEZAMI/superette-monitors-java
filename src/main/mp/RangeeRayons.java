@@ -1,7 +1,11 @@
-package main;
+package main.mp;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import main.products.Product;
+import main.products.ProductFactory;
+import main.threads.Client;
 
 public class RangeeRayons {
     Rayon[] rayons = new Rayon[Superette.availableProductsNames.length];
@@ -20,7 +24,7 @@ public class RangeeRayons {
     public String toString() {
         String s = "";
         for (Rayon rayon : rayons) {
-            s += rayon.getId() + " : " + rayon.getProducts().size() + " items.";
+            s += rayon.getId() + " : " + rayon.getProducts().size() + " items.\n";
         }
         return s;
     }
@@ -35,6 +39,11 @@ public class RangeeRayons {
             return products;
         }
 
+        /**
+         * 
+         * @param p produit à ajouter
+         * @return la taille de la liste après l'ajout, -1 si la liste est pleine
+         */
         synchronized public void ajouter(Product p) {
             // while (products.size() == max_size) {
             // try {

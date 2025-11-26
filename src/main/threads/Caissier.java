@@ -1,7 +1,13 @@
-package main;
+package main.threads;
+
+import main.mp.Superette;
 
 public class Caissier extends Thread {
     Superette superette;
+
+    public Superette getSuperette() {
+        return superette;
+    }
 
     public Caissier(Superette superette) {
         this.superette = superette;

@@ -1,4 +1,4 @@
-package main;
+package main.products;
 
 public class ProductFactory {
     public static Product createProduct(String name) {

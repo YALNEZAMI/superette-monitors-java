@@ -1,14 +1,16 @@
-package main;
+package main.threads;
 
 import java.util.Map;
-import main.RangeeChariots.Chariot;
-import main.RangeeRayons.Rayon;
+import main.mp.Superette;
+import main.mp.RangeeChariots.Chariot;
+import main.mp.RangeeRayons.Rayon;
+import main.products.ProductFactory;
 
 public class Client extends Thread {
-    private Map<String, Integer> panier;
+    private Map<String, Integer> panier;// list de course
     private String name;
     private Superette superette;
-    private Chariot chariot;
+    private Chariot chariot;// chariot reel à remplir
 
     public Client(String name, Superette superette) {
         this.name = name;
@@ -53,17 +55,16 @@ public class Client extends Thread {
                 Thread.sleep(300);
             } catch (Exception e) {
             }
-            int nbrPrisRayon = 0;
             // System.out.println(this.getName() + " visite rayon " + rayon.getId()
             // + " dont stock à " + rayon.getProducts().size());
             if (panier.containsKey(rayon.getId())) {
                 while (panier.get(rayon.getId()) > chariot.getProducts().get(rayon.getId())) {
                     rayon.prendre(this);
                     chariot.setProduct(rayon.getId(), chariot.getProducts().get(rayon.getId()) + 1);
-                    nbrPrisRayon++;
                 }
             }
-            System.out.println("Client---" + this.getName() + " a pris " + nbrPrisRayon + " " + rayon.getId()
+            System.out.println("Client---" + this.getName() + " a pris " + chariot.getProducts().get(rayon.getId())
+                    + " " + rayon.getId()
                     + " -> stock = "
                     + rayon.getProducts().size());
         }
@@ -130,6 +131,11 @@ public class Client extends Thread {
     @Override
     public void run() {
         passerEnMagasin();
+    }
+
+    @Override
+    public String toString() {
+        return "Client [name=" + name + ", panier=" + panier + "]";
     }
 
 }

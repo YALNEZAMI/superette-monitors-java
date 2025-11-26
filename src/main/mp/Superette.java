@@ -1,4 +1,6 @@
-package main;
+package main.mp;
+
+import main.threads.Client;
 
 public class Superette {
     public static String[] availableProductsNames = { "beurre", "farine", "sucre", "lait" };// à synchroniser avec les
@@ -9,6 +11,7 @@ public class Superette {
     public static int NBR_INIT_CLIENTS = 2;
     public static int MAX_SIZE_RAYON = 6;
     public static int SIZE_CAISSE_TAPIS = 5;
+    public static int MAX_CHEF_RAYON_CAPACITY = 5;
 
     private RangeeChariots rangeeChariots;
     private RangeeRayons rangeeRayons;
@@ -42,19 +45,23 @@ public class Superette {
         System.out.println(client.getName() + " est entré au supermarché");
     }
 
-    public void sortir(Client client) {
+    synchronized public void sortir(Client client) {
         nbrClientSortie++;
         System.out.println(client.getName() + " est sorti du supermarché");
+        // pour que le dernier client qui sort reveille le caissier(et donc il arrete de
+        // travailler)
+        if (nbrClientSortie == Superette.NBR_INIT_CLIENTS) {
+            caisse.reveillerCaissierPourRentrer();
+        }
     }
 
     @Override
     public String toString() {
         String s = "Superette: \n";
-        s += "Rangee chariots: \n";
-        rangeeChariots.toString();
+        s += "Rangee chariots:" + rangeeChariots.toString() + " \n";
         s += "Rangee rayons: \n";
-        rangeeRayons.toString();
-        s += "Caisse: \n";
+        s += rangeeRayons.toString();
+        s += "\nCaisse: \n";
         s += caisse.toString() + "\n";
         return s;
     }

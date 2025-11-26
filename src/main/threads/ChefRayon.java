@@ -1,9 +1,11 @@
-package main;
+package main.threads;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import main.RangeeRayons.Rayon;
+import main.mp.Superette;
+import main.mp.RangeeRayons.Rayon;
+import main.products.ProductFactory;
 
 public class ChefRayon extends Thread {
     Superette superette;
@@ -46,12 +48,12 @@ public class ChefRayon extends Thread {
                     && chariotChefRayon.get(rayon.getId()) > 0) {
                 nbrAjouts++;
                 rayon.ajouter(ProductFactory.createProduct(rayon.getId()));
+
                 chariotChefRayon.put(rayon.getId(), chariotChefRayon.get(rayon.getId()) - 1);
             }
             System.out.println(
-                    "ChefRayon---" + rayon.getId() + ": ancien stock: " + (ancienStock -
-                            nbrAjouts)
-                            + " nouveau stock: " + rayon.getProducts().size());
+                    "ChefRayon---" + rayon.getId() + ": ancien stock: " + (ancienStock)
+                            + " nouveau stock: " + rayon.getProducts().size() + " (" + nbrAjouts + " ajouté)");
 
         }
     }

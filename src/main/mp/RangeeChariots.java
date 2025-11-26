@@ -1,11 +1,13 @@
-package main;
+package main.mp;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 
+import main.threads.Client;
+
 public class RangeeChariots {
-    Stack<Chariot> chariots = new Stack<>();
+    private Stack<Chariot> chariots = new Stack<>();
 
     public RangeeChariots() {
         for (int i = 0; i < Superette.NBR_CHARIOTS; i++) {
@@ -27,6 +29,10 @@ public class RangeeChariots {
         return c;
     }
 
+    public Stack<Chariot> getChariots() {
+        return chariots;
+    }
+
     synchronized public void restituerChariot(Client client) {
         // while (chariots.size() == MAX_SIZE) {
         // try {
@@ -42,9 +48,9 @@ public class RangeeChariots {
     @Override
     public String toString() {
         String s = chariots.size() + " chariots: \n";
-        for (Chariot chariot : chariots) {
-            s += chariot.getId() + "\n";
-        }
+        // for (Chariot chariot : chariots) {
+        // s += chariot.getId() + "\n";
+        // }
         return s;
     }
 

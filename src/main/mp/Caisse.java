@@ -1,7 +1,11 @@
-package main;
+package main.mp;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import main.products.Product;
+import main.threads.Caissier;
+import main.threads.Client;
 
 public class Caisse {
     private Product[] tapis = new Product[Superette.SIZE_CAISSE_TAPIS];
@@ -12,6 +16,7 @@ public class Caisse {
     private boolean clientDone = true;
     private double chiffreDaffaire = 0;
     private boolean paid = false;
+    private boolean isJobDone = false;
 
     private void incCurrentClientCase() {
         if (currentClientCase == Superette.SIZE_CAISSE_TAPIS - 1) {
@@ -36,14 +41,14 @@ public class Caisse {
             } catch (Exception e) {
             }
         }
-        int somme = 0;
+        double somme = 0;
         for (Product product : scannedProducts) {
+            System.out.println("pricing: " + product.getPrice());
             somme += product.getPrice();
         }
         chiffreDaffaire += somme;
         System.out.println(somme + " payé par :" + client.getName());
         paid = true;
-        scannedProducts.clear();
         notify();
     }
 
@@ -88,6 +93,11 @@ public class Caisse {
         notifyAll();// reveiller le caissier car attend le client d'entrer
     }
 
+    synchronized public void reveillerCaissierPourRentrer() {
+        isJobDone = true;
+        notifyAll();
+    }
+
     synchronized public void sortirCaisse(Client client) {
         while (!paid) {
             try {
@@ -97,6 +107,7 @@ public class Caisse {
         }
         paid = false;
         currentClient = null;
+        scannedProducts.clear();
         System.out.println(client.getName() + " sort de caisse");
         notifyAll();
     }
@@ -121,10 +132,11 @@ public class Caisse {
             this.clientDone = true;
 
         }
+        notifyAll();
     }
 
     synchronized public void prendre(Caissier caissier) {
-        while ((isEmpty() && !clientDone) || currentClient == null) {
+        while (((isEmpty() && !clientDone) || currentClient == null) && !isJobDone) {
             try {
                 if (isEmpty() && !clientDone) {
                     System.out.println("Caissier---" + caissier.getName()
@@ -137,36 +149,45 @@ public class Caisse {
             } catch (Exception e) {
             }
         }
-        if (tapis[currentCaissierCase] != null) {
-            System.out.println(
-                    "Caissier--- " + caissier.getName() + " prend "
-                            + tapis[currentCaissierCase].getName() + " du client " + currentClient.getName());
-            scannedProducts.add(tapis[currentCaissierCase]);
-            tapis[currentCaissierCase] = null;
-            incCurrentCaissierCase();
-            notifyAll();// tapis avec case libre
-        }
-        if (!paid) {
-            payer(currentClient);
+        if (!isJobDone) {
+            if (tapis[currentCaissierCase] != null) {
+                System.out.println(
+                        "Caissier--- " + caissier.getName() + " prend "
+                                + tapis[currentCaissierCase].getName() + " du client " + currentClient.getName());
+                scannedProducts.add(tapis[currentCaissierCase]);
+                tapis[currentCaissierCase] = null;
+                incCurrentCaissierCase();
+                notifyAll();// tapis avec case libre
+            }
+            if (!paid) {
+                payer(currentClient);
+            }
         }
 
     }
 
     @Override
     public String toString() {
-        String s = "Products:\n";
+        String s = "Scanned products:\n";
         for (Product product : scannedProducts) {
             s += product.getName() + "\n ";
         }
         if (currentClient != null) {
             s += "Client actuel: \n" + currentClient.getName();
+            if (clientDone) {
+                s += " (done)\n";
+                if (!paid) {
+                    s += "client attend pour paiment";
+                }
+            } else {
+                s += " (not done)\n";
+            }
 
         } else {
             s += "Client actuel: abscent\n";
 
         }
-        s += "Client done: " + clientDone + "\n";
-        s += "Chiffre d'affaire" + chiffreDaffaire + "\n";
+        s += "Chiffre d'affaire : " + chiffreDaffaire + "\n";
         return s;
     }
 

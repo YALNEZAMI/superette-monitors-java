@@ -1,4 +1,4 @@
-package main;
+package main.products;
 
 public class Sucre extends Product {
     public Sucre() {
