@@ -47,7 +47,7 @@ public class RangeeChariots {
 
     @Override
     public String toString() {
-        String s = chariots.size() + " chariots: \n";
+        String s = chariots.size() + "/" + Superette.NBR_CHARIOTS + " chariots: \n";
         // for (Chariot chariot : chariots) {
         // s += chariot.getId() + "\n";
         // }
