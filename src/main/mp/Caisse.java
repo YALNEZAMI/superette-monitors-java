@@ -67,7 +67,8 @@ public class Caisse {
 
     /**
      * 
-     * @param client le client qui entre en caisse
+     * @param client le client qui veut entrer en caisse
+     * @ensure que le client attende s'il y a déjà qqun à la caisse
      * @ensure considèrer qu'il n'a pas encore déposé tous ses produits
      * @ensure notifier le caissier qui attend qu'un client entre en caisse
      */
@@ -244,7 +245,7 @@ public class Caisse {
             s += "\n\n";
         }
         s += "\n\n";
-        s += "Nombre de client facturé: " + facturator.keySet().size() + "\n";
+        s += "Nombre de client facturé: " + facturator.keySet().size() + " " + Superette.NBR_INIT_CLIENTS + "\n";
         s += "Chiffre d'affaire: " + truncate(chiffreDaffaire) + "$\n";
 
         return s;

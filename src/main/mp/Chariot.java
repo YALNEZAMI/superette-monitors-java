@@ -21,15 +21,29 @@ public class Chariot {
         }
     }
 
-    // pas de contrainte pour le nombre(sinon conflit avec les besoin des clients)
+    /**
+     * 
+     * @param product nom de la catégorie du produit à modifier
+     * @param nbr     nouveau nombre d'items dans le chariot
+     */
     public void setProduct(String product, int nbr) {
         products.put(product, nbr);
     }
 
+    /**
+     * 
+     * @param product nom de la catégorie du produit à modifier
+     * @ensure le nombre d'items dans le chariot est decrémenté de 1
+     */
     public void decremente(String product) {
         products.put(product, products.get(product) - 1);
     }
 
+    /**
+     * 
+     * @param product nom de la catégorie du produit à modifier
+     * @ensure le nombre d'items dans le chariot est incrémenté de 1
+     */
     public void incremente(String product) {
         products.put(product, products.get(product) + 1);
     }

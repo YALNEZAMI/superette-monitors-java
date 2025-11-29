@@ -1,8 +1,5 @@
 package main.threads;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import main.mp.Superette;
 import main.mp.Chariot;
 import main.mp.Rayon;
@@ -10,7 +7,7 @@ import main.products.ProductFactory;
 
 public class ChefRayon extends Thread {
     Superette superette;
-    // chariot du chef de rayon
+    // chariot du chef de rayon initialsé vide
     Chariot chariotChefRayon;
 
     public ChefRayon(Superette superette) {
@@ -34,6 +31,7 @@ public class ChefRayon extends Thread {
 
     /**
      * @ensure les rayons sont remplis autant que possible
+     * 
      */
     public void tournerRayons() {
         for (Rayon rayon : superette.getRangeeRayons().getRayons()) {
@@ -48,7 +46,6 @@ public class ChefRayon extends Thread {
                     && chariotChefRayon.getProducts().get(rayon.getId()) > 0) {
                 nbrAjouts++;
                 rayon.ajouter(ProductFactory.createProduct(rayon.getId()));
-
                 chariotChefRayon.decremente(rayon.getId());
             }
             System.out.println(
@@ -58,6 +55,7 @@ public class ChefRayon extends Thread {
         }
     }
 
+    // faire le plein et tourner entre les rayons
     public void travailler() {
         faireLePlein();
         tournerRayons();

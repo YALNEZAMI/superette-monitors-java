@@ -12,13 +12,13 @@ public class Superette {
      * exemple autorisé avec 5: 5 farine, 0 sucre, 3 beurre, 1 lait
      * exemple interdit avec 5: 0 farine, 2 sucre, 8 beurre, 6 lait
      */
-    public static int MAX_PRODUCT_BY_CATEGORY_PER_CLIENT = 5;
+    public static int MAX_PRODUCT_BY_CATEGORY_PER_CLIENT = 2;
     /** le nombre de clients dans le supermarché */
-    public static int NBR_INIT_CLIENTS = 2;
+    public static int NBR_INIT_CLIENTS = 5;
     /* Le nombre maximum qu'un rayon peut contenir de produits */
-    public static int MAX_SIZE_RAYON = 6;
+    public static int MAX_SIZE_RAYON = 4;
     /** La taille du tapis de la caisse */
-    public static int SIZE_CAISSE_TAPIS = 5;
+    public static int SIZE_CAISSE_TAPIS = 4;
     /** Capacité du chef de rayon par catégorie de produit */
     public final static int MAX_CHEF_RAYON_CAPACITY = 5;
     // les rayons sont remplis à l'initialisation
@@ -56,13 +56,21 @@ public class Superette {
         return caisse;
     }
 
+    /**
+     * 
+     * @param client le client qui entre au supermarché
+     */
     public void entrer(Client client) {
         System.out.println(client.getName() + " est entré au supermarché et veut acheter "
                 + client.getListCourse().values().stream().mapToInt(Integer::intValue).sum() + " produits");
     }
 
-    // les clients sorte un par un pour pouvoir bien les compter et notifier le
-    // caissier
+    /**
+     * 
+     * @param client le client qui sort
+     * @ensure les clients sorte un par un pour pouvoir bien les compter
+     * @ensure notifier le caissier au dernier client sortant
+     */
     synchronized public void sortir(Client client) {
         nbrClientSortie++;
         System.out.println(client.getName() + " est sorti du supermarché");

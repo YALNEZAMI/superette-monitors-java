@@ -29,20 +29,28 @@ public class Client extends Thread {
         return listCourse;
     }
 
+    // entrer au magasin
     public void entrer() {
         superette.entrer(this);
     }
 
+    // prendre un chariot
     public void prendreChariot() {
         Chariot chariot = superette.getRangeeChariots().prendreChariot(this);
         this.chariot = chariot;
     }
 
+    // restituer le chariot
     public void restituerChariot() {
         superette.getRangeeChariots().restituerChariot(this);
         this.chariot = null;
     }
 
+    /**
+     * @ensure faire la tournée des rayons
+     * @ensure prendre les produits un par un
+     * @ensure attendre dans chaque rayon jusqu'à remplire les besoin
+     */
     public void tournerRayons() {
         for (Rayon rayon : superette.getRangeeRayons().getRayons()) {
             try {
@@ -62,10 +70,15 @@ public class Client extends Thread {
         }
     }
 
+    // entrer en caisse
     public void entrerEnCaisse() {
         superette.getCaisse().entrerEnCaisse(this);
     }
 
+    /**
+     * 
+     * @return le nombre total d'items dans la chariot
+     */
     private int getNbrProduitDansChariot() {
         int res = 0;
         // parcours des rayons
@@ -78,9 +91,30 @@ public class Client extends Thread {
         return res;
     }
 
+    /**
+     * 
+     * @return le nombre total d'items dans la liste de course
+     */
+    private int getNbrProduitDansListCourse() {
+        int res = 0;
+        // parcours des rayons
+        for (int j = 0; j < Superette.availableProductsNames.length; j++) {
+            String productName = Superette.availableProductsNames[j];
+            if (listCourse.containsKey(productName)) {
+                res += listCourse.get(productName);
+            }
+        }
+        return res;
+    }
+
+    /**
+     * @ensure déposer tous les produit un par un
+     * @ensure à chaque categorie totalement déposé, remettre à 0
+     */
     public void deposer() {
         int nbProduitsDeposes = 0;
         int nbrProduitDansChariot = getNbrProduitDansChariot();
+
         // parcours des rayons
         for (int j = 0; j < Superette.availableProductsNames.length; j++) {
             String productName = Superette.availableProductsNames[j];
@@ -99,22 +133,27 @@ public class Client extends Thread {
         }
     }
 
+    // sortir du magasin
     public void sortir() {
         superette.sortir(this);
     }
 
+    // sortir de la caisse
     public void sortirCaisse() {
         superette.getCaisse().sortirCaisse(this);
     }
 
+    // passer en magasin selon les étapes précisées
     public void passerEnMagasin() {
         entrer();
-        prendreChariot();
-        tournerRayons();
-        entrerEnCaisse();
-        deposer();
-        sortirCaisse();
-        restituerChariot();
+        if (getNbrProduitDansListCourse() > 0) {
+            prendreChariot();
+            tournerRayons();
+            entrerEnCaisse();
+            deposer();
+            sortirCaisse();
+            restituerChariot();
+        }
         sortir();
     }
 

@@ -47,8 +47,12 @@ public class Rayon {
         return id;
     }
 
-    // constructor: les rayons sont créés déjà plein ou vide selon:
-    // Superette.ARE_RAYONS_PLEIN_PAR_DEFAUT
+    /**
+     * 
+     * @param id identifiant du rayon
+     * @ensure rayons sont créés déjà plein ou vide selon:
+     *         Superette.ARE_RAYONS_PLEIN_PAR_DEFAUT
+     */
     public Rayon(String id) {
         this.id = id;
         products = new LinkedList<Product>();
