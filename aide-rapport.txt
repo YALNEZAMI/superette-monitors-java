@@ -1,0 +1,5 @@
+Threads: ChefRayon,Client,Caissier
+Variable partagé: Superette et récursivement ses composante(le reste du package mp)
+Problème rencontré: reveiller le Caissier à partir de Superette --> solution faire une methode dédié dans Caisse pour le notifier du dernier client sortie(fin travail)
+
+les produits ont un identifiant de type nomProduit+nbrAleatoir
