@@ -18,7 +18,7 @@ public class ChefRayon extends Thread {
 
     public void faireLePlein() {
         try {
-            Thread.sleep(500);
+            Thread.sleep(Superette.TEMPS_CHEF_RAYON_FAIRE_PLEIN);
         } catch (Exception e) {
         }
         for (String productName : Superette.availableProductsNames) {
@@ -38,7 +38,7 @@ public class ChefRayon extends Thread {
             int nbrAjouts = 0;
 
             try {
-                Thread.sleep(200);
+                Thread.sleep(Superette.TEMPS_CHEF_RAYON_ENTRE_RAYONS);
             } catch (Exception e) {
             }
             // System.out

@@ -52,7 +52,7 @@ public class Client extends Thread {
     public void tournerRayons() {
         for (Rayon rayon : superette.getRangeeRayons().getRayons()) {
             try {
-                Thread.sleep(300);
+                Thread.sleep(Superette.TEMPS_CLIENT_ENTRE_RAYONS);
             } catch (Exception e) {
             }
             // System.out.println(this.getName() + " visite rayon " + rayon.getId()
@@ -99,7 +99,7 @@ public class Client extends Thread {
                     System.out.println("nbrproduit depose " + nbProduitsDeposes);
                     boolean isLastProduct = nbProduitsDeposes == nbrProduitDansChariot;
                     try {
-                        Thread.sleep(20);
+                        Thread.sleep(Superette.TEMPS_CLIENT_DEPOSE_PRODUIT_SUR_TAPIS);
                     } catch (Exception e) {
                     }
                     superette.getCaisse().deposer(this, ProductFactory.createProduct(productName), isLastProduct);
