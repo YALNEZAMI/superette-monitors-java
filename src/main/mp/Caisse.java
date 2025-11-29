@@ -181,7 +181,7 @@ public class Caisse {
         // prendre s'il y a qqchose à prendre
         if (tapis[currentCaissierCase] != null) {
             System.out.println(
-                    "Caissier--- " + caissier.getName() + " encaisse "
+                    "Caissier--- " + caissier.getName() + " scanne "
                             + tapis[currentCaissierCase].getName() + " du client " + currentClient.getName());
             scannedProducts.add(tapis[currentCaissierCase]);
             tapis[currentCaissierCase] = null;
@@ -241,11 +241,11 @@ public class Caisse {
 
             chiffreDaffaire += sommeParClient;
             s += "\n";
-            s += "Total facture: " + truncate(sommeParClient) + "$\n";
+            s += "Total facture pour client " + client.getName() + " : " + truncate(sommeParClient) + "$\n";
             s += "\n\n";
         }
         s += "\n\n";
-        s += "Nombre de client facturé: " + facturator.keySet().size() + " " + Superette.NBR_INIT_CLIENTS + "\n";
+        s += "Nombre de client facturé: " + facturator.keySet().size() + "/" + Superette.NBR_INIT_CLIENTS + "\n";
         s += "Chiffre d'affaire: " + truncate(chiffreDaffaire) + "$\n";
 
         return s;

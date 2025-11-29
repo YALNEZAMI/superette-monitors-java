@@ -48,10 +48,12 @@ public class ChefRayon extends Thread {
                 rayon.ajouter(ProductFactory.createProduct(rayon.getId()));
                 chariotChefRayon.decremente(rayon.getId());
             }
-            System.out.println(
-                    "ChefRayon---" + rayon.getId() + ": ancien stock: " + (ancienStock)
-                            + " nouveau stock: " + rayon.getProducts().size() + " (" + nbrAjouts + " ajouté)");
+            if (nbrAjouts > 0) {
+                System.out.println(
+                        "ChefRayon---" + rayon.getId() + ": ancien stock: " + (ancienStock)
+                                + " nouveau stock: " + rayon.getProducts().size() + " (" + nbrAjouts + " ajouté)");
 
+            }
         }
     }
 

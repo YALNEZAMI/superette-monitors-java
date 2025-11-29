@@ -27,13 +27,13 @@ public class RangeeChariots {
         // si pas de chariot dispo, attendre
         while (chariots.isEmpty()) {
             try {
-                System.out.println(client.getName() + " attend pour chariot");
+                System.out.println("Client---" + client.getName() + " attend pour chariot");
                 wait();
             } catch (Exception e) {
             }
         }
         Chariot c = chariots.pop();
-        System.out.println(client.getName() + " a pris chariot " + c.getId());
+        System.out.println("Client---" + client.getName() + " a pris chariot n°" + c.getId());
         return c;
     }
 
@@ -43,7 +43,7 @@ public class RangeeChariots {
      *               --> pas de contrainte pour le nombre
      */
     synchronized public void restituerChariot(Client client) {
-        System.out.println(client.getName() + " a restitué le chariot " + client.getChariot().getId());
+        System.out.println(client.getName() + " a restitué le chariot n°" + client.getChariot().getId());
         chariots.push(client.getChariot());
         notifyAll();
     }
@@ -52,7 +52,7 @@ public class RangeeChariots {
     public String toString() {
         String s = chariots.size() + "/" + Superette.NBR_CHARIOTS + " chariots: \n";
         if (chariots.size() < Superette.NBR_CHARIOTS) {
-            s += "Tous les chariots n'ont pas encore été restitués !\n";
+            s += "Il manque " + (Superette.NBR_CHARIOTS - chariots.size()) + "\n";
         }
         return s;
     }
