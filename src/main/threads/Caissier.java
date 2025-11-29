@@ -18,6 +18,6 @@ public class Caissier extends Thread {
         while (Superette.NBR_INIT_CLIENTS > superette.getNbrClientSortie()) {
             superette.getCaisse().prendre(this);
         }
-        System.out.println("caissier a fini son travail");
+        System.out.println("Le caissier a fini son travail");
     }
 }

@@ -12,16 +12,28 @@ import main.threads.Caissier;
 import main.threads.Client;
 
 public class Caisse {
+    // le tapis de la caisse
     private Product[] tapis = new Product[Superette.SIZE_CAISSE_TAPIS];
+    // position d'avancement du client
     private int currentClientCase = 0;
+    // position d'avancement du caissier
     private int currentCaissierCase = 0;
+    // les produits scanné
     private List<Product> scannedProducts = new ArrayList<Product>();
+    // le client à la caissie(unique)
     private Client currentClient = null;
+    // si le client a finit de déposer ses produits sur le tapis
     private boolean clientDone = true;
+    // si le client a été facturé
     private boolean paid = false;
+    // si tous les client ont quité le supermarché
     private boolean isJobDone = false;
+    // un historique des vente
     private Map<Client, List<Product>> facturator = new HashMap<>();
 
+    /**
+     * @ensure incremente la position d'avancement du client de maniere circulaire
+     */
     private void incCurrentClientCase() {
         if (currentClientCase == Superette.SIZE_CAISSE_TAPIS - 1) {
             currentClientCase = 0;
@@ -30,6 +42,9 @@ public class Caisse {
         }
     }
 
+    /**
+     * @ensure incremente la position d'avancement du caissier de maniere circulaire
+     */
     private void incCurrentCaissierCase() {
         if (currentCaissierCase == Superette.SIZE_CAISSE_TAPIS - 1) {
             currentCaissierCase = 0;
@@ -38,37 +53,24 @@ public class Caisse {
         }
     }
 
-    synchronized public void facturer(Client client) {
-        // enregistrer dans les facturation
-        facturator.put(client, List.copyOf(scannedProducts));
+    /**
+     * @ensure ajouter le client actuel et ses produits à l'historique de la vente
+     * @ensure le marquer comme payé,
+     * @ensure le notifier du paiment pour qu'il puisse sortire de la caisse
+     */
+    synchronized public void facturer() {
+        Client copyClient = currentClient;
+        facturator.put(copyClient, List.copyOf(scannedProducts));
         paid = true;
-        notifyAll();// notifier le client qu'il peut sortir de la casise
+        notifyAll();
     }
 
-    private boolean isEmpty() {
-        boolean b = false;
-        for (int i = 0; i < tapis.length; i++) {
-            if (tapis[i] == null) {
-                b = true;
-                break;
-            }
-        }
-        // System.out.println("tapis vide? :" + b);
-        return b;
-    }
-
-    private boolean isFull() {
-        boolean b = true;
-        for (int i = 0; i < tapis.length; i++) {
-            if (tapis[i] == null) {
-                b = false;
-                break;
-            }
-        }
-        System.out.println("tapis full? :" + b);
-        return b;
-    }
-
+    /**
+     * 
+     * @param client le client qui entre en caisse
+     * @ensure considèrer qu'il n'a pas encore déposé tous ses produits
+     * @ensure notifier le caissier qui attend qu'un client entre en caisse
+     */
     synchronized public void entrerEnCaisse(Client client) {
         while (currentClient != null) {
             try {
@@ -79,7 +81,7 @@ public class Caisse {
         System.out.println(client.getName() + " entre en caisse");
         currentClient = client;
         clientDone = false;
-        notifyAll();// reveiller le caissier car attend le client d'entrer
+        notifyAll();
     }
 
     synchronized public void reveillerCaissierPourRentrer() {
@@ -87,6 +89,16 @@ public class Caisse {
         notifyAll();
     }
 
+    /**
+     * 
+     * @param client qui veut sortir de la caisse
+     * @ensure que client attend s'il n'a pas encore payé(car caissier est en
+     *         train de scanner les produit)
+     * @ensure le client suivant est marqué comme pas payé
+     * @ensure les produits scanné sont remis à 0 produits
+     * 
+     * 
+     */
     synchronized public void sortirCaisse(Client client) {
         while (!paid) {
             try {
@@ -101,18 +113,28 @@ public class Caisse {
         notifyAll();
     }
 
+    /**
+     * 
+     * @param client      le client qui dépose
+     * @param product     le produit déposé
+     * @param lastProduct is c'est le dernier produit à être déposé
+     * @ensure notifier le caissier qui attend qu'un client dépose un produit
+     * @ensure marquer que le client a fini de déposer si dernier porduit
+     * @ensure product est déposé à la case du client
+     * 
+     */
     synchronized public void deposer(Client client, Product product, boolean lastProduct) {
-        while (isFull()) {
+        while (tapis[currentClientCase] != null) {
             try {
                 wait();
             } catch (Exception e) {
             }
         }
         if (lastProduct) {
-            System.out.println("Client---" + client.getName() + " deposer le dernier article " + product.getName());
+            System.out.println("Client---" + client.getName() + " dépose le dernier article " + product.getName());
 
         } else {
-            System.out.println("Client---" + client.getName() + " deposer " + product.getName());
+            System.out.println("Client---" + client.getName() + " dépose " + product.getName());
 
         }
         tapis[currentClientCase] = product;
@@ -124,6 +146,18 @@ public class Caisse {
         notifyAll();
     }
 
+    /**
+     * 
+     * @param caissier le caissier qui prend le produit
+     * @ensure la case du caissier est remis à null
+     * @ensure le produit pris devient dans scannedProducts
+     * @ensure la case du caissier est remis à null
+     * @ensure facturer le client si(il y en a un):
+     *         il a fini de déposer et le caissier a fini de prendre(et qu'il a pas
+     *         déjà payé)
+     * @ensure notifier le client qui attend qu'il dépose un produit
+     * 
+     */
     synchronized public void prendre(Caissier caissier) {
         /**
          * on attend si il reste des client dans le magasin et
@@ -131,12 +165,11 @@ public class Caisse {
          * ou à la pile de chariots )
          * soit il y a un client mais il n'a pas encore fini de déposer ses articles
          */
-        while (((isEmpty() && !clientDone) || currentClient == null) && !isJobDone) {
+        while (((tapis[currentCaissierCase] == null && !clientDone) || currentClient == null) && !isJobDone) {
             try {
-                if (isEmpty() && !clientDone) {
+                if (tapis[currentCaissierCase] == null && !clientDone) {
                     System.out.println("Caissier---" + caissier.getName()
                             + " attend car tapis vide mais client n' pas encore fini");
-
                 } else if (currentClient == null) {
                     System.out.println("Caissier---" + caissier.getName() + " attend car pas de client");
                 }
@@ -144,20 +177,19 @@ public class Caisse {
             } catch (Exception e) {
             }
         }
-        // si tous les client sont sorti --> rien à faire
-        if (!isJobDone) {
-            if (tapis[currentCaissierCase] != null) {
-                System.out.println(
-                        "Caissier--- " + caissier.getName() + " prend "
-                                + tapis[currentCaissierCase].getName() + " du client " + currentClient.getName());
-                scannedProducts.add(tapis[currentCaissierCase]);
-                tapis[currentCaissierCase] = null;
-                incCurrentCaissierCase();
-                notifyAll();// notifie le client à la caisse qu'il peut déposer
-            }
-            if (!paid && clientDone && isEmpty()) {// payé si tous les produits ont été déposé et scanné
-                facturer(currentClient);
-            }
+        // prendre s'il y a qqchose à prendre
+        if (tapis[currentCaissierCase] != null) {
+            System.out.println(
+                    "Caissier--- " + caissier.getName() + " encaisse "
+                            + tapis[currentCaissierCase].getName() + " du client " + currentClient.getName());
+            scannedProducts.add(tapis[currentCaissierCase]);
+            tapis[currentCaissierCase] = null;
+            incCurrentCaissierCase();
+            notifyAll();
+        }
+        // facturer si tout est bon
+        if (!paid && clientDone && tapis[currentCaissierCase] == null && currentClient != null) {
+            facturer();
         }
 
     }
@@ -189,7 +221,6 @@ public class Caisse {
 
         }
         s += "\n";
-
         s += "Facturation: \n";
         s += "\n";
         double chiffreDaffaire = 0;
@@ -207,19 +238,21 @@ public class Caisse {
 
             }
 
-            BigDecimal truncatedDouble = new BigDecimal(sommeParClient);
-            truncatedDouble = truncatedDouble.setScale(2, RoundingMode.HALF_DOWN);
-            chiffreDaffaire += truncatedDouble.doubleValue();
-
-            s += "Total facture: " + truncatedDouble + "$\n";
+            chiffreDaffaire += sommeParClient;
             s += "\n";
-
+            s += "Total facture: " + truncate(sommeParClient) + "$\n";
+            s += "\n\n";
         }
-        s += "\n";
-        s += "\n";
-        s += "Chiffre d'affaire: " + chiffreDaffaire + "$\n";
+        s += "\n\n";
+        s += "Nombre de client facturé: " + facturator.keySet().size() + "\n";
+        s += "Chiffre d'affaire: " + truncate(chiffreDaffaire) + "$\n";
 
         return s;
     }
 
+    private double truncate(double value) {
+        BigDecimal truncatedSum = new BigDecimal(value);
+        truncatedSum = truncatedSum.setScale(2, RoundingMode.HALF_DOWN);
+        return truncatedSum.doubleValue();
+    }
 }

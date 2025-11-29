@@ -13,7 +13,7 @@ public class App {
         List<Client> clients = new ArrayList<>();
         Superette superette = new Superette();
         for (int i = 0; i < Superette.NBR_INIT_CLIENTS; i++) {
-            clients.add(new Client("client" + i, superette));
+            clients.add(new Client(superette));
         }
 
         Caissier caissier = new Caissier(superette);

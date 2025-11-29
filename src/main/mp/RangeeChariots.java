@@ -1,12 +1,11 @@
 package main.mp;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Stack;
 
 import main.threads.Client;
 
 public class RangeeChariots {
+    // les chariots sont emboité, donc stack pour bien représenté
     private Stack<Chariot> chariots = new Stack<>();
 
     public RangeeChariots() {
@@ -15,31 +14,35 @@ public class RangeeChariots {
         }
     }
 
-    synchronized public Chariot prendreChariot(Client client) {
-        while (chariots.isEmpty()) {
-            try {
-                System.out.println(client.getName() + " attend pour chariot");
-
-                wait();
-            } catch (Exception e) {
-            }
-        }
-        System.out.println(client.getName() + " a pris chariot");
-        Chariot c = chariots.pop();
-        return c;
-    }
-
     public Stack<Chariot> getChariots() {
         return chariots;
     }
 
+    /**
+     * 
+     * @param client le client qui prend le chariot
+     * @return retourn le chariot pris
+     */
+    synchronized public Chariot prendreChariot(Client client) {
+        // si pas de chariot dispo, attendre
+        while (chariots.isEmpty()) {
+            try {
+                System.out.println(client.getName() + " attend pour chariot");
+                wait();
+            } catch (Exception e) {
+            }
+        }
+        Chariot c = chariots.pop();
+        System.out.println(client.getName() + " a pris chariot " + c.getId());
+        return c;
+    }
+
+    /**
+     * 
+     * @param client le client qui restitue le chariot
+     *               --> pas de contrainte pour le nombre
+     */
     synchronized public void restituerChariot(Client client) {
-        // while (chariots.size() == MAX_SIZE) {
-        // try {
-        // wait();
-        // } catch (Exception e) {
-        // }
-        // }
         System.out.println(client.getName() + " a restitué le chariot " + client.getChariot().getId());
         chariots.push(client.getChariot());
         notifyAll();
@@ -48,40 +51,10 @@ public class RangeeChariots {
     @Override
     public String toString() {
         String s = chariots.size() + "/" + Superette.NBR_CHARIOTS + " chariots: \n";
-        // for (Chariot chariot : chariots) {
-        // s += chariot.getId() + "\n";
-        // }
+        if (chariots.size() < Superette.NBR_CHARIOTS) {
+            s += "Tous les chariots n'ont pas encore été restitués !\n";
+        }
         return s;
-    }
-
-    public class Chariot {
-
-        private String id;
-        private Map<String, Integer> products;
-
-        public String getId() {
-            return id;
-        }
-
-        public Chariot(String id) {
-            this.id = id;
-            products = new HashMap<String, Integer>();
-            for (String productName : Superette.availableProductsNames) {
-                products.put(productName, 0);
-            }
-        }
-
-        public void setProduct(String product, int nbr) {
-            products.put(product, nbr);
-        }
-
-        public void removeProduct(String product) {
-            products.remove(product);
-        }
-
-        public Map<String, Integer> getProducts() {
-            return products;
-        }
     }
 
 }

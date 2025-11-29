@@ -20,12 +20,14 @@ public class Superette {
     /** La taille du tapis de la caisse */
     public static int SIZE_CAISSE_TAPIS = 5;
     /** Capacité du chef de rayon par catégorie de produit */
-    public static int MAX_CHEF_RAYON_CAPACITY = 5;
+    public final static int MAX_CHEF_RAYON_CAPACITY = 5;
+    // les rayons sont remplis à l'initialisation
+    public final static boolean ARE_RAYONS_PLEIN_PAR_DEFAUT = true;
     // les temps d'attente en ms
-    public static int TEMPS_CHEF_RAYON_FAIRE_PLEIN = 500;
-    public static int TEMPS_CHEF_RAYON_ENTRE_RAYONS = 200;
-    public static int TEMPS_CLIENT_ENTRE_RAYONS = 300;
-    public static int TEMPS_CLIENT_DEPOSE_PRODUIT_SUR_TAPIS = 20;
+    public final static int TEMPS_CHEF_RAYON_FAIRE_PLEIN = 500;
+    public final static int TEMPS_CHEF_RAYON_ENTRE_RAYONS = 200;
+    public final static int TEMPS_CLIENT_ENTRE_RAYONS = 300;
+    public final static int TEMPS_CLIENT_DEPOSE_PRODUIT_SUR_TAPIS = 20;
 
     private RangeeChariots rangeeChariots;
     private RangeeRayons rangeeRayons;
@@ -55,17 +57,16 @@ public class Superette {
     }
 
     public void entrer(Client client) {
-        System.out.println(client.getName() + " est entré au supermarché");
+        System.out.println(client.getName() + " est entré au supermarché et veut acheter "
+                + client.getListCourse().values().stream().mapToInt(Integer::intValue).sum() + " produits");
     }
 
+    // les clients sorte un par un pour pouvoir bien les compter et notifier le
+    // caissier
     synchronized public void sortir(Client client) {
         nbrClientSortie++;
         System.out.println(client.getName() + " est sorti du supermarché");
-        /*
-         * pour que le dernier client qui sort reveille le caissier(et donc il arrete de
-         * travailler)
-         * pas besoin de réveiller le chef de rayon car il n'attend jamais
-         */
+        // notifier le caissier que le travail est fini
         if (nbrClientSortie == Superette.NBR_INIT_CLIENTS) {
             caisse.reveillerCaissierPourRentrer();
         }

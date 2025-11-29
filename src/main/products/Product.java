@@ -6,12 +6,14 @@ import java.util.Random;
 import main.mp.Superette;
 
 public abstract class Product {
+    // nom de la catégorie
     private String name;
     Date date = new Date(System.currentTimeMillis());
     Random random = new Random();
+    // identifiant de l'item
     private int id = random.nextInt() * Superette.NBR_INIT_CLIENTS * Superette.MAX_PRODUCT_BY_CATEGORY_PER_CLIENT
             * Superette.MAX_SIZE_RAYON;
-
+    // prix du produit
     private double price;
 
     public String getName() {

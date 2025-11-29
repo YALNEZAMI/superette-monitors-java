@@ -1,6 +1,12 @@
 package main.products;
 
 public class ProductFactory {
+    /**
+     * 
+     * @param name doit être un nom de produit valide (voir
+     *             Superette.availableProductsNames)
+     * @return une instance de la classe correspondante à name
+     */
     public static Product createProduct(String name) {
         switch (name) {
             case "beurre":
@@ -16,8 +22,7 @@ public class ProductFactory {
                 return new Farine();
 
             default:
-                System.out.println("error: ProductFactory-createProduct nom produit non trouvé");
-                return null;
+                throw new IllegalArgumentException("error: ProductFactory-createProduct nom produit non trouvé");
         }
     }
 }
