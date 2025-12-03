@@ -1,6 +1,7 @@
 package main.threads;
 
 import main.mp.Superette;
+import main.Afficheur;
 import main.mp.Chariot;
 import main.mp.Rayon;
 import main.products.ProductFactory;
@@ -26,7 +27,7 @@ public class ChefRayon extends Thread {
         for (String productName : Superette.availableProductsNames) {
             chariotChefRayon.setProduct(productName, Superette.MAX_CHEF_RAYON_CAPACITY);
         }
-        System.out.println("Chef rayon a fais le plein .");
+        System.out.println(Afficheur.colorer("ChefRayon", "Chef rayon a fais le plein ."));
     }
 
     /**
@@ -49,9 +50,9 @@ public class ChefRayon extends Thread {
                 chariotChefRayon.decremente(rayon.getId());
             }
             if (nbrAjouts > 0) {
-                System.out.println(
+                System.out.println(Afficheur.colorer("ChefRayon",
                         "ChefRayon---" + rayon.getId() + ": ancien stock: " + (ancienStock)
-                                + " nouveau stock: " + rayon.getProducts().size() + " (" + nbrAjouts + " ajouté)");
+                                + " nouveau stock: " + rayon.getProducts().size() + " (" + nbrAjouts + " ajouté)"));
 
             }
         }
@@ -68,6 +69,6 @@ public class ChefRayon extends Thread {
         while (Superette.NBR_INIT_CLIENTS > superette.getNbrClientSortie()) {
             travailler();
         }
-        System.out.println("chef rayon a fini son travail");
+        System.out.println(Afficheur.colorer("ChefRayon", "Chef rayon a fini son travail"));
     }
 }

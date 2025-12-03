@@ -2,6 +2,7 @@ package main.threads;
 
 import java.util.Map;
 import main.mp.Superette;
+import main.Afficheur;
 import main.mp.Chariot;
 import main.mp.Rayon;
 import main.products.ProductFactory;
@@ -57,16 +58,13 @@ public class Client extends Thread {
                 Thread.sleep(Superette.TEMPS_CLIENT_ENTRE_RAYONS);
             } catch (Exception e) {
             }
-            if (listCourse.containsKey(rayon.getId())) {
+            if (listCourse.containsKey(rayon.getId()) && listCourse.get(rayon.getId()) != 0) {
                 while (listCourse.get(rayon.getId()) > chariot.getProducts().get(rayon.getId())) {
                     rayon.prendre(this);
                     chariot.incremente(rayon.getId());
                 }
+
             }
-            System.out.println("Client---" + this.getName() + " a pris " + chariot.getProducts().get(rayon.getId())
-                    + " " + rayon.getId()
-                    + " -> stock = "
-                    + rayon.getProducts().size());
         }
     }
 
@@ -95,7 +93,7 @@ public class Client extends Thread {
      * 
      * @return le nombre total d'items dans la liste de course
      */
-    private int getNbrProduitDansListCourse() {
+    public int getNbrProduitDansListCourse() {
         int res = 0;
         // parcours des rayons
         for (int j = 0; j < Superette.availableProductsNames.length; j++) {

@@ -36,7 +36,9 @@ public class App {
         chefRayon.join();
         caissier.join();
         // affichage de l'état final
-        System.out.println("____Etat de la supertte____");
+        System.out.println("\n\n\n");
+        System.out.println("____Etat final de la supertte____");
+        System.out.println("_________________________________________");
         System.out.println(superette.toString());
 
     }

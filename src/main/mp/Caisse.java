@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import main.Afficheur;
 import main.products.Product;
 import main.threads.Caissier;
 import main.threads.Client;
@@ -62,6 +63,7 @@ public class Caisse {
         Client copyClient = currentClient;
         facturator.put(copyClient, List.copyOf(scannedProducts));
         paid = true;
+        System.out.println(Afficheur.colorer("Client-Caisse", "Client---" + copyClient.getName() + " a été facturé. "));
         notifyAll();
     }
 
@@ -79,7 +81,7 @@ public class Caisse {
             } catch (Exception e) {
             }
         }
-        System.out.println(client.getName() + " entre en caisse");
+        System.out.println(Afficheur.colorer("Client-Caisse", "Client---" + client.getName() + " entre en caisse"));
         currentClient = client;
         clientDone = false;
         notifyAll();
@@ -110,7 +112,7 @@ public class Caisse {
         paid = false;
         currentClient = null;
         scannedProducts.clear();
-        System.out.println(client.getName() + " sort de caisse");
+        System.out.println(Afficheur.colorer("Client-Caisse", "Client---" + client.getName() + " sort de caisse"));
         notifyAll();
     }
 
@@ -132,10 +134,13 @@ public class Caisse {
             }
         }
         if (lastProduct) {
-            System.out.println("Client---" + client.getName() + " dépose le dernier article " + product.getName());
+            System.out.println(Afficheur.colorer("Client-Caisse",
+                    "Client---" + client.getName() + " dépose le dernier article " + product.getName()));
 
         } else {
-            System.out.println("Client---" + client.getName() + " dépose " + product.getName());
+            System.out.println(
+                    Afficheur.colorer("Client-Caisse",
+                            "Client---" + client.getName() + " dépose " + product.getName()));
 
         }
         tapis[currentClientCase] = product;
@@ -169,10 +174,11 @@ public class Caisse {
         while (((tapis[currentCaissierCase] == null && !clientDone) || currentClient == null) && !isJobDone) {
             try {
                 if (tapis[currentCaissierCase] == null && !clientDone) {
-                    System.out.println("Caissier---" + caissier.getName()
-                            + " attend car tapis vide mais client n' pas encore fini");
+                    System.out.println(Afficheur.colorer("Caissier", "Caissier---" + caissier.getName()
+                            + " attend car tapis vide mais client n' pas encore fini"));
                 } else if (currentClient == null) {
-                    System.out.println("Caissier---" + caissier.getName() + " attend car pas de client");
+                    System.out.println(Afficheur.colorer("Caissier",
+                            "Caissier---" + caissier.getName() + " attend car pas de client"));
                 }
                 wait();
             } catch (Exception e) {
@@ -180,9 +186,9 @@ public class Caisse {
         }
         // prendre s'il y a qqchose à prendre
         if (tapis[currentCaissierCase] != null) {
-            System.out.println(
+            System.out.println(Afficheur.colorer("Caissier",
                     "Caissier--- " + caissier.getName() + " scanne "
-                            + tapis[currentCaissierCase].getName() + " du client " + currentClient.getName());
+                            + tapis[currentCaissierCase].getName() + " du client " + currentClient.getName()));
             scannedProducts.add(tapis[currentCaissierCase]);
             tapis[currentCaissierCase] = null;
             incCurrentCaissierCase();
@@ -242,7 +248,7 @@ public class Caisse {
             chiffreDaffaire += sommeParClient;
             s += "\n";
             s += "Total facture pour client " + client.getName() + " : " + truncate(sommeParClient) + "$\n";
-            s += "\n\n";
+            s += "\n------------\n\n";
         }
         s += "\n\n";
         s += "Nombre de client facturé: " + facturator.keySet().size() + "/" + Superette.NBR_INIT_CLIENTS + "\n";

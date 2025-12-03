@@ -1,5 +1,6 @@
 package main.threads;
 
+import main.Afficheur;
 import main.mp.Superette;
 
 public class Caissier extends Thread {
@@ -18,6 +19,6 @@ public class Caissier extends Thread {
         while (Superette.NBR_INIT_CLIENTS > superette.getNbrClientSortie()) {
             superette.getCaisse().prendre(this);
         }
-        System.out.println("Le caissier a fini son travail");
+        System.out.println(Afficheur.colorer("Caissier", "Le caissier a fini son travail"));
     }
 }

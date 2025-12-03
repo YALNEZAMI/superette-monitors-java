@@ -1,5 +1,6 @@
 package main.mp;
 
+import main.Afficheur;
 import main.threads.Client;
 
 public class Superette {
@@ -28,6 +29,7 @@ public class Superette {
     public final static int TEMPS_CHEF_RAYON_ENTRE_RAYONS = 200;
     public final static int TEMPS_CLIENT_ENTRE_RAYONS = 300;
     public final static int TEMPS_CLIENT_DEPOSE_PRODUIT_SUR_TAPIS = 20;
+    // variable affichage console couleur
 
     private RangeeChariots rangeeChariots;
     private RangeeRayons rangeeRayons;
@@ -61,8 +63,9 @@ public class Superette {
      * @param client le client qui entre au supermarché
      */
     public void entrer(Client client) {
-        System.out.println(client.getName() + " est entré au supermarché et veut acheter "
-                + client.getListCourse().values().stream().mapToInt(Integer::intValue).sum() + " produits");
+        System.out.println(Afficheur.colorer("Superette",
+                "Client---" + client.getName() + " est entré au supermarché et veut acheter "
+                        + client.getListCourse().values().stream().mapToInt(Integer::intValue).sum() + " produits"));
     }
 
     /**
@@ -73,7 +76,17 @@ public class Superette {
      */
     synchronized public void sortir(Client client) {
         nbrClientSortie++;
-        System.out.println(client.getName() + " est sorti du supermarché");
+        if (client.getNbrProduitDansListCourse() > 0) {
+            System.out
+                    .println(Afficheur.colorer("Superette",
+                            "Client---" + client.getName() + " est sorti du supermarché."));
+
+        } else {
+            System.out
+                    .println(Afficheur.colorer("Superette", "Client---" + client.getName()
+                            + " est sorti du supermarché car il n'avait rien à acheter."));
+
+        }
         // notifier le caissier que le travail est fini
         if (nbrClientSortie == Superette.NBR_INIT_CLIENTS) {
             caisse.reveillerCaissierPourRentrer();
@@ -82,12 +95,11 @@ public class Superette {
 
     @Override
     public String toString() {
-        String s = "Superette: \n";
-        s += "Etat du stock de chariot: " + rangeeChariots.toString() + " \n";
-        s += "Etat du stock de praduits dans les rayons: \n";
-        s += rangeeRayons.toString();
-        s += "\nEtat de la caisse: \n";
-        s += caisse.toString() + "\n";
+        String s = "";
+        s += Afficheur.colorer("Chariot", "Etat du stock de chariot: " + rangeeChariots.toString() + " \n");
+        s += Afficheur.colorer("Rayon",
+                "Etat du stock de praduits dans les rayons: \n" + rangeeRayons.toString() + "\n");
+        s += Afficheur.colorer("Caisse", "Etat de la caisse: \n" + caisse.toString() + "\n");
         return s;
     }
 }

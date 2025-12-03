@@ -2,6 +2,7 @@ package main.mp;
 
 import java.util.List;
 
+import main.Afficheur;
 import main.products.Product;
 import java.util.LinkedList;
 
@@ -35,12 +36,18 @@ public class Rayon {
         // à notifier par le chef de rayon
         while (products.size() == 0) {
             try {
-                System.out.println("Client---" + client.getName() + " attend le remplissage du rayon " + id);
+                System.out.println(Afficheur.colorer("Client-Rayon",
+                        "Client---" + client.getName() + " attend le remplissage du rayon " + id));
                 wait();
             } catch (Exception e) {
             }
         }
         products.remove(0);
+        System.out.println(Afficheur.colorer("Client-Rayon",
+                "Client---" + client.getName() + " a pris 1 "
+                        + id
+                        + " -> stock = "
+                        + getProducts().size()));
     }
 
     public String getId() {
