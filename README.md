@@ -1,10 +1,12 @@
 # Notre readme
 
-Le point d'entrée est à la racine dans le fichier App.java
+Ce projet java a été généré avec VsCode, sans outil de gestion de dépéndance.
+
+Le point d'entrée est à la racine dans le fichier /src/main/App.java
 
 # démarrage -option 1 :
 
-Il suffit d'ouvrir le dossier avec Vscode et aller au main et le lancer.
+Il suffit d'ouvrir le dossier avec Vscode et aller au main(/src/main/App.java) et le lancer.
 
 # démarrage -option 2 :
 
