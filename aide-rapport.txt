@@ -1,5 +1,29 @@
 Threads: ChefRayon,Client,Caissier
-Variable partagé: Superette et récursivement ses composante(le reste du package mp)
-Problème rencontré: reveiller le Caissier à partir de Superette --> solution faire une methode dédié dans Caisse pour le notifier du dernier client sortie(fin travail)
+
+Variable partagé: Superette et récursivement ses composante
+                                         -----  Superette  -----
+                                    /              |               \
+                            RangeeChariots      Caisse          RangeeRayons
+                                /                                       \
+                            Chariot                                    Rayon
+
+Exclusions mutuelle:
+-Au niveau de la rangée de chariots: Les cliens entre eux pour la prise de chariots --> pour bien les compter
+--> pas besoin de wait pour la restitution car il n'y a pas de surplus de chariots (maximum paramétré dans les variables statiques de Superette)
+-Au niveau des rayons: Les Clients et le ChefRayon et entre les Clients eux mêmes 
+-Au niveau de la Caisse: Entre les Clients eux même pour entrer en caisse, et entre le client en caisse et le cassier pour le dépot/prise de produits sur le tapis
+
+Null pour marquer l'abscence de prouit dans une case du tapis
+LastProduit lors du dépot sur le tapis pour notifier le caissier que le client a fini de déposer(clientDone=true)
+nbrClientSorti pour savoir s'il reste des clients au magasin et sinon faire arrêter de travailler le ChefRayon et le Caissier
+
+
+Toute les variables de configuration se trouvent dans la classe Superette sous forme statiques.
+
+Problème rencontré: reveiller le Caissier à partir de Superette car le compteur de client est dans Superette alors que le Caisser attent au niveau de Caisse
+ --> solution faire une methode dédié dans Caisse avec une variable isJobDone pour le notifier du dernier client sortie(fin travail), et l'appeler depuis Caisse
 
 les produits ont un identifiant de type nomProduit+nbrAleatoir
+
+Afficheur pour colorer les messages pour améliorer leur lisibilité.
+
