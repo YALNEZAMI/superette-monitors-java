@@ -13,6 +13,7 @@ Exclusions mutuelle:
 -Au niveau des rayons: Les Clients et le ChefRayon et entre les Clients eux mêmes 
 -Au niveau de la Caisse: Entre les Clients eux même pour entrer en caisse, et entre le client en caisse et le cassier pour le dépot/prise de produits sur le tapis
 
+Tableau availableProducts dans Superette qui contient les catégories de produits dispo et qui doit être syncronisier avec la fonction ProductFacotry.createProduct(nameProduct)
 Null pour marquer l'abscence de prouit dans une case du tapis
 LastProduit lors du dépot sur le tapis pour notifier le caissier que le client a fini de déposer(clientDone=true)
 nbrClientSorti pour savoir s'il reste des clients au magasin et sinon faire arrêter de travailler le ChefRayon et le Caissier
