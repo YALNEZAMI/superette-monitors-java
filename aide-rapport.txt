@@ -23,6 +23,8 @@ Toute les variables de configuration se trouvent dans la classe Superette sous f
 Problème rencontré: reveiller le Caissier à partir de Superette car le compteur de client est dans Superette alors que le Caisser attent au niveau de Caisse
  --> solution faire une methode dédié dans Caisse avec une variable isJobDone pour le notifier du dernier client sortie(fin travail), et l'appeler depuis Caisse
 
+Le ChefRayon n'attend pas si un rayon est plein.
+
 les produits ont un identifiant de type nomProduit+nbrAleatoir
 
 Afficheur pour colorer les messages pour améliorer leur lisibilité.
@@ -31,6 +33,7 @@ Structure de données choisi:
 -Tableau en dur pour les rayons dans RangeeRayons car nombre constant
 -LinkedList pour les produits dans Rayon car subissent beaucoup de changements(add/remove)
 -Pile pour les chariots dans RangeeChariots car réaliste et correspond au besoin
--HashMap<String,Integer> pour la liste de course des Clients et les produits dans un chariots
+-HashMap<String,Integer> pour la liste de course des Clients 
+-HashMap<String,Integer> pour les produits dans un chariots
 -HashMap<Client,List<Product>> pour le système de facturation : enregistre chaque client avec la liste des produits achetés
 -LinkedList pour les produits scannés au niveau de la caisse, se vide quand le client sort de la caisse (subit aussi bcp de changements)
