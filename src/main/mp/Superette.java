@@ -13,23 +13,24 @@ public class Superette {
      * exemple autorisé avec 5: 5 farine, 0 sucre, 3 beurre, 1 lait
      * exemple interdit avec 5: 0 farine, 2 sucre, 8 beurre, 6 lait
      */
-    public static int MAX_PRODUCT_BY_CATEGORY_PER_CLIENT = 2;
-    /** le nombre de clients dans le supermarché */
-    public static int NBR_INIT_CLIENTS = 5;
+    public static int MAX_PRODUCT_BY_CATEGORY_PER_CLIENT = 5;
+    /**
+     * le nombre de clients dans le supermarché (fourni dans les specs du rapport)
+     */
+    public final static int NBR_INIT_CLIENTS = 5;
     /* Le nombre maximum qu'un rayon peut contenir de produits */
-    public static int MAX_SIZE_RAYON = 4;
+    public static int MAX_SIZE_RAYON = 10;
     /** La taille du tapis de la caisse */
-    public static int SIZE_CAISSE_TAPIS = 4;
-    /** Capacité du chef de rayon par catégorie de produit */
+    public static int SIZE_CAISSE_TAPIS = 5;
+    /** Capacité du chef de rayon par catégorie de produit (fourni dans le sujet */
     public final static int MAX_CHEF_RAYON_CAPACITY = 5;
     // les rayons sont remplis à l'initialisation
-    public final static boolean ARE_RAYONS_PLEIN_PAR_DEFAUT = true;
-    // les temps d'attente en ms
+    public static boolean ARE_RAYONS_PLEIN_PAR_DEFAUT = true;
+    // les temps d'attente en ms (fourni dans le sujet)
     public final static int TEMPS_CHEF_RAYON_FAIRE_PLEIN = 500;
     public final static int TEMPS_CHEF_RAYON_ENTRE_RAYONS = 200;
     public final static int TEMPS_CLIENT_ENTRE_RAYONS = 300;
     public final static int TEMPS_CLIENT_DEPOSE_PRODUIT_SUR_TAPIS = 20;
-    // variable affichage console couleur
 
     private RangeeChariots rangeeChariots;
     private RangeeRayons rangeeRayons;
