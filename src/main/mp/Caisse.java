@@ -2,8 +2,8 @@ package main.mp;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +20,7 @@ public class Caisse {
     // position d'avancement du caissier
     private int currentCaissierCase = 0;
     // les produits scanné
-    private List<Product> scannedProducts = new ArrayList<Product>();
+    private List<Product> scannedProducts = new LinkedList<Product>();
     // le client à la caissie(unique)
     private Client currentClient = null;
     // si le client a finit de déposer ses produits sur le tapis

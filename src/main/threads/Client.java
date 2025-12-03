@@ -1,8 +1,8 @@
 package main.threads;
 
+import java.util.HashMap;
 import java.util.Map;
 import main.mp.Superette;
-import main.Afficheur;
 import main.mp.Chariot;
 import main.mp.Rayon;
 import main.products.ProductFactory;
@@ -14,7 +14,7 @@ public class Client extends Thread {
 
     public Client(Superette superette) {
         this.superette = superette;
-        this.listCourse = new java.util.HashMap<>();
+        this.listCourse = new HashMap<>();
         for (String productName : Superette.availableProductsNames) {
             // nbr aleatoir entre 0 et 10
             int nbrProduits = (int) (Math.random() * Superette.MAX_PRODUCT_BY_CATEGORY_PER_CLIENT);
