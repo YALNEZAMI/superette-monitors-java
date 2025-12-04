@@ -25,7 +25,7 @@ public class Superette {
     /** Capacité du chef de rayon par catégorie de produit (fourni dans le sujet */
     public final static int MAX_CHEF_RAYON_CAPACITY = 5;
     // les rayons sont remplis à l'initialisation
-    public static boolean ARE_RAYONS_PLEIN_PAR_DEFAUT = true;
+    public static boolean ARE_RAYONS_FULL_BY_DEFAULT = true;
     // les temps d'attente en ms (fourni dans le sujet)
     public final static int TEMPS_CHEF_RAYON_FAIRE_PLEIN = 500;
     public final static int TEMPS_CHEF_RAYON_ENTRE_RAYONS = 200;

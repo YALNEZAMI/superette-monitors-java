@@ -39,7 +39,7 @@ public class Rayon {
         while (products.size() == 0) {
             try {
                 System.out.println(Afficheur.colorer("Client-Rayon",
-                        "Client---" + client.getName() + " attend le remplissage du rayon " + id));
+                        "Client---" + client.getName() + " attend car rayon vide" + id + "."));
                 wait();
             } catch (Exception e) {
             }
@@ -49,7 +49,8 @@ public class Rayon {
                 "Client---" + client.getName() + " a pris 1 "
                         + id
                         + " -> nouveau stock = "
-                        + getProducts().size()));
+                        + getProducts().size())
+                + ".");
     }
 
     public String getId() {
@@ -65,7 +66,7 @@ public class Rayon {
     public Rayon(String id) {
         this.id = id;
         products = new LinkedList<Product>();
-        if (Superette.ARE_RAYONS_PLEIN_PAR_DEFAUT) {
+        if (Superette.ARE_RAYONS_FULL_BY_DEFAULT) {
             for (int i = 0; i < Superette.MAX_SIZE_RAYON / 2; i++) {
                 products.add(ProductFactory.createProduct(id));
 
