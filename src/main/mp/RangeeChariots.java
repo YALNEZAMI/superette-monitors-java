@@ -6,7 +6,7 @@ import main.Afficheur;
 import main.threads.Client;
 
 public class RangeeChariots {
-    // les chariots sont emboité, donc stack pour bien représenté
+    // les chariots sont emboité, donc stack pour bien les représenter
     private Stack<Chariot> chariots = new Stack<>();
 
     public RangeeChariots() {
