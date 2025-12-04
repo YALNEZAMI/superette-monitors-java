@@ -20,11 +20,13 @@ public class Rayon {
     /**
      * @param p produit à ajouter
      */
-    synchronized public void ajouter(Product p) {
-        if (products.size() <= Superette.MAX_SIZE_RAYON) {
+    synchronized public int ajouter(Product p) {
+        if (products.size() < Superette.MAX_SIZE_RAYON) {
             products.add(p);
             notify();// notify simple suffit car un seul wait (on ajout produit par produit)
+            return 1;
         }
+        return 0;
 
     }
 

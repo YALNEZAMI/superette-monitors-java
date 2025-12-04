@@ -44,8 +44,7 @@ public class ChefRayon extends Thread {
             } catch (Exception e) {
             }
             while (chariotChefRayon.getProducts().get(rayon.getId()) > 0) {
-                nbrAjouts++;
-                rayon.ajouter(ProductFactory.createProduct(rayon.getId()));
+                nbrAjouts += rayon.ajouter(ProductFactory.createProduct(rayon.getId()));
                 chariotChefRayon.decremente(rayon.getId());
             }
             if (nbrAjouts > 0) {
