@@ -49,7 +49,7 @@ public class RangeeChariots {
         System.out.println(Afficheur.colorer("Chariot",
                 "Client---" + client.getName() + " a restitué le chariot n°" + client.getChariot().getId()));
         chariots.push(client.getChariot());
-        notify();
+        notify();// notify simple car un seul chariot est réstitué à la fois(un seul wait)
     }
 
     @Override

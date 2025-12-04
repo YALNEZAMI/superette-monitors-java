@@ -23,7 +23,7 @@ public class Rayon {
     synchronized public void ajouter(Product p) {
         if (products.size() <= Superette.MAX_SIZE_RAYON) {
             products.add(p);
-            notifyAll();
+            notify();// notify simple suffit car un seul wait (on ajout produit par produit)
         }
 
     }
