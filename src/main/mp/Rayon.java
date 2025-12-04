@@ -48,7 +48,7 @@ public class Rayon {
         System.out.println(Afficheur.colorer("Client-Rayon",
                 "Client---" + client.getName() + " a pris 1 "
                         + id
-                        + " -> stock = "
+                        + " -> nouveau stock = "
                         + getProducts().size()));
     }
 
