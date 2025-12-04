@@ -43,8 +43,7 @@ public class ChefRayon extends Thread {
                 Thread.sleep(Superette.TEMPS_CHEF_RAYON_ENTRE_RAYONS);
             } catch (Exception e) {
             }
-            while (rayon.getProducts().size() < Superette.MAX_SIZE_RAYON
-                    && chariotChefRayon.getProducts().get(rayon.getId()) > 0) {
+            while (chariotChefRayon.getProducts().get(rayon.getId()) > 0) {
                 nbrAjouts++;
                 rayon.ajouter(ProductFactory.createProduct(rayon.getId()));
                 chariotChefRayon.decremente(rayon.getId());
