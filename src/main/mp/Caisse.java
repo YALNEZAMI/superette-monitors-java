@@ -83,7 +83,6 @@ public class Caisse {
         }
         System.out.println(Afficheur.colorer("Client-Caisse", "Client---" + client.getName() + " entre en caisse"));
         currentClient = client;
-        clientDone = false;
         notifyAll();
     }
 
@@ -109,11 +108,22 @@ public class Caisse {
             } catch (Exception e) {
             }
         }
+
+        System.out.println(Afficheur.colorer("Client-Caisse", "Client---" + client.getName() + " sort de caisse"));
+        reinitCaisse();
+        notifyAll();
+    }
+
+    /**
+     * @ensure les variables d'état sont remis à leurs valeurs initiales pour
+     *         accueillir un nouveau client
+     */
+    synchronized public void reinitCaisse() {
         paid = false;
         currentClient = null;
         scannedProducts.clear();
-        System.out.println(Afficheur.colorer("Client-Caisse", "Client---" + client.getName() + " sort de caisse"));
-        notifyAll();
+        clientDone = false;
+
     }
 
     /**
